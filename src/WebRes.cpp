@@ -52,7 +52,7 @@ web::WebRequest request::base() {
 
     return web::WebRequest()
         .userAgent(fmt::format("ModComments/{} ({}, Geode {}, GD {})", Mod::get()->getVersion().toVString(false), platform::getString(), loader->getVersion(), loader->getGameVersion()))
-        .timeout(std::chrono::seconds(15));
+        .timeout(asp::Duration::fromSecs(15));
 }
 
 web::WebRequest request::setBytes(geode::utils::web::WebRequest other, geode::ByteVector data) {

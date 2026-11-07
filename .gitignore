@@ -1,3 +1,4 @@
+# stole from gode
 # Prerequisites
 *.d
 
@@ -11,17 +12,6 @@
 *.gch
 *.pch
 
-# Linker files
-*.ilk
-
-# Debugger Files
-*.pdb
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
 # Fortran module files
 *.mod
 *.smod
@@ -29,16 +19,54 @@
 # Compiled Static libraries
 *.lai
 *.la
-*.a
-*.lib
 
 # Executables
 *.exe
 *.out
 *.app
 
-# debug information files
-*.dwo
+# Macos be like
+**/.DS_Store
 
-build/
+# Cache files for Sublime Text
+**/*.tmlanguage.cache
+**/*.tmPreferences.cache
+**/*.stTheme.cache
 .cache
+
+# Workspace files are user-specific
+**/*.sublime-workspace
+**/*.sublime-project
+.vscode
+.vs
+.idea
+
+# Ignore build folders
+**/build
+build
+build2
+build-docs/
+bin
+/build-*
+
+# Ignore docs folders
+docs/**
+docs
+docs-dist/
+
+# Ignore generated files
+installer/mac/*.pkg
+installer/windows/*.exe
+
+# Ignore krita files too because we don't want our project files shaking my head
+**/*.kra
+
+# Ignore clangd cache
+.cache
+.clangd
+
+# Add bindings folder to ignore list, so people can clone a local copy of them there
+bindings
+bindings/**
+
+CMakeUserPresets.json

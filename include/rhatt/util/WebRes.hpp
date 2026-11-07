@@ -4,9 +4,9 @@
 
 #ifdef CW_ENABLE_WEB
     #include "../aliases.hpp"
-
-    #include <Geode/Geode.hpp>
 #endif
+
+#include <Geode/utils/web.hpp>
 
 namespace cw {
     namespace web = geode::utils::web;

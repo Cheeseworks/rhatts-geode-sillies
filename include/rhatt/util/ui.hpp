@@ -1,6 +1,8 @@
 #pragma once
 
-#include <Geode/Geode.hpp>
+#include <Geode/ui/Button.hpp>
+
+#include <Geode/binding/FLAlertLayer.hpp>
 
 namespace cw {
     namespace ui {

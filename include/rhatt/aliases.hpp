@@ -6,6 +6,8 @@
 
 #include <Geode/cocos/cocoa/CCGeometry.h>
 
+#include <Geode/binding/FMODAudioEngine.hpp>
+
 namespace cw {
     namespace sfx {
         inline void play(geode::ZStringView file) {
