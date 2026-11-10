@@ -9,6 +9,9 @@
 #include <Geode/binding/FMODAudioEngine.hpp>
 
 namespace cw {
+    template <typename T>
+    concept Number = std::integral<T> || std::floating_point<T>;
+
     namespace sfx {
         inline void play(geode::ZStringView file) {
             (void)FMODAudioEngine::sharedEngine()->playEffectAsync(file);

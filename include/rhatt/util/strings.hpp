@@ -2,6 +2,8 @@
 
 #include "../Macros.h"
 
+#include "../util.hpp"
+
 #include <Geode/utils/string.hpp>
 
 namespace cw {
@@ -10,6 +12,15 @@ namespace cw {
 
         inline constexpr auto isOnOff(bool on) {
             return on ? "ON" : "OFF";
+        }
+
+        template <Number T>
+        std::string fmtNum(T num, std::optional<size_t> precision = std::nullopt) {
+            if constexpr (std::is_floating_point_v<T>) {
+                if (precision.has_value()) return fmt::format("{:.{}f}", num, *precision);
+            }
+
+            return fmt::to_string(num);
         }
 
         namespace plurals {

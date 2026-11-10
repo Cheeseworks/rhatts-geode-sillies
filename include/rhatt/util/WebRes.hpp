@@ -3,7 +3,7 @@
 #include "../Macros.h"
 
 #ifdef CW_ENABLE_WEB
-    #include "../aliases.hpp"
+    #include "../util.hpp"
 #endif
 
 #include <Geode/utils/web.hpp>
