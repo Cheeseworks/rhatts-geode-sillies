@@ -48,14 +48,24 @@ WebRes request::parse(web::WebResponse const& res) {
 }
 
 web::WebRequest request::base() {
+    auto mod = Mod::get();
     auto loader = Loader::get();
 
     return web::WebRequest()
-        .userAgent(fmt::format("ModComments/{} ({}, Geode {}, GD {})", Mod::get()->getVersion().toVString(false), platform::getString(), loader->getVersion(), loader->getGameVersion()))
+        .userAgent(
+            fmt::format(
+                "{}/{} ({}, Geode {}, GD {})",
+                str::remove(mod->getName(), " "),
+                mod->getVersion().toVString(false),
+                platform::getString(),
+                loader->getVersion(),
+                loader->getGameVersion()
+            )
+        )
         .timeout(asp::Duration::fromSecs(15));
 }
 
-web::WebRequest request::setBytes(geode::utils::web::WebRequest other, geode::ByteVector data) {
+web::WebRequest request::setBytes(geode::utils::web::WebRequest other, ByteVector data) {
     return other.body(std::move(data));
 }
 
