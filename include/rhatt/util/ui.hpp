@@ -1,5 +1,7 @@
 #pragma once
 
+#include "strings.hpp"
+
 #include <Geode/ui/Button.hpp>
 
 #include <Geode/binding/FLAlertLayer.hpp>
@@ -18,21 +20,21 @@ namespace cw {
             inline constexpr auto chat = "chatFont.fnt";
 
             namespace geode {
-                inline constexpr auto mono = "geode.loader/mdFontMono.fnt";
-                inline constexpr auto regular = "geode.loader/mdFont.fnt";
-                inline constexpr auto italic = "geode.loader/mdFontI.fnt";
-                inline constexpr auto bold = "geode.loader/mdFontB.fnt";
-                inline constexpr auto boldItalic = "geode.loader/mdFontBI.fnt";
+                inline constexpr auto mono = "mdFontMono.fnt"_gode;
+                inline constexpr auto regular = "mdFont.fnt"_gode;
+                inline constexpr auto italic = "mdFontI.fnt"_gode;
+                inline constexpr auto bold = "mdFontB.fnt"_gode;
+                inline constexpr auto boldItalic = "mdFontBI.fnt"_gode;
             };
         };
 
         namespace sprites {
             namespace squares {
-                inline constexpr auto white = "geode.loader/white-square.png";
-                inline constexpr auto black = "geode.loader/black-square.png";
+                inline constexpr auto white = "white-square.png"_gode;
+                inline constexpr auto black = "black-square.png"_gode;
             };
 
-            inline constexpr auto close = "geode.loader/close.png";
+            inline constexpr auto close = "close.png"_gode;
             inline constexpr auto info = "GJ_infoIcon_001.png";
         };
 

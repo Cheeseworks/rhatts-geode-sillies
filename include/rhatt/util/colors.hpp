@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+
 #include <Geode/cocos/include/ccTypes.h>
 
 namespace cw {
@@ -17,9 +19,25 @@ namespace cw {
         inline constexpr cocos2d::ccColor3B black = { 25, 25, 25 };
 
         namespace internal {
-            constexpr cocos2d::ccColor3B lerpColor(cocos2d::ccColor3B const& a, cocos2d::ccColor3B const& b, float t) noexcept;
+            inline constexpr cocos2d::ccColor3B lerpColor(cocos2d::ccColor3B const& a, cocos2d::ccColor3B const& b, float t) noexcept {
+                return {
+                    static_cast<GLubyte>(a.r + (b.r - a.r) * t),
+                    static_cast<GLubyte>(a.g + (b.g - a.g) * t),
+                    static_cast<GLubyte>(a.b + (b.b - a.b) * t),
+                };
+            }
         };
 
-        constexpr cocos2d::ccColor3B fadeColor(float value) noexcept;
+        inline constexpr cocos2d::ccColor3B fadeColor(float value) noexcept {
+            value = std::clamp(value, 0.f, 100.f);
+
+            if (value <= 50.0f) {
+                auto t = value / 50.0f;
+                return internal::lerpColor(red, yellow, t);
+            } else {
+                auto t = (value - 50.0f) / 50.0f;
+                return internal::lerpColor(yellow, green, t);
+            };
+        }
     };
 };

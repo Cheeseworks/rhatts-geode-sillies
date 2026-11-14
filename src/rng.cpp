@@ -16,7 +16,7 @@ uint8_t rng::fast() {
 }
 
 bool rng::chance(uint8_t percent) {
-    if (percent > 100) percent = 100;
+    percent = std::clamp(percent, (uint8_t)0, (uint8_t)100);
     return get(100) <= percent;
 }
 
@@ -26,7 +26,6 @@ float rng::pc(size_t precision) {
 }
 
 constexpr float rng::chanceToDelayPct(uint8_t chance) noexcept {
-    if (chance > 100) chance = 100;
-
-    return 1.f - (static_cast<float>(chance) / 100.f);
+    chance = std::clamp(chance, (uint8_t)0, (uint8_t)100);
+    return 1.f - ((float)chance / 100.f);
 }
