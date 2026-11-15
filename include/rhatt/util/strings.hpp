@@ -15,9 +15,19 @@ namespace cw {
         }
 
         template <Number T>
-        std::string fmtNum(T num, std::optional<size_t> precision = std::nullopt) {
+        std::string fmtNum(T num, std::optional<size_t> precision = std::nullopt, bool trimZero = true) {
             if constexpr (std::is_floating_point_v<T>) {
-                if (precision.has_value()) return fmt::format("{:.{}f}", num, *precision);
+                if (precision.has_value()) {
+                    auto s = fmt::format("{:.{}f}", num, *precision);
+                    if (*precision <= 0) return s;
+
+                    if (trimZero && s.find('.') != std::string::npos) {
+                        s.erase(s.find_last_not_of('0') + 1);
+                        if (s.back() == '.') s.pop_back();
+                    }
+
+                    return s;
+                }
             }
 
             return fmt::to_string(num);
