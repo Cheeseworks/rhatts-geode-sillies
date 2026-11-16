@@ -4,6 +4,7 @@
 
 #include <Geode/ui/Button.hpp>
 
+#include <Geode/binding/ProfilePage.hpp>
 #include <Geode/binding/FLAlertLayer.hpp>
 
 namespace cw {
@@ -15,6 +16,13 @@ namespace cw {
         };
 
         geode::Button* addHelpButton(cocos2d::CCNode* to, std::string content, bool useMarkdown = false, float btnScale = 0.75f, cocos2d::CCPoint const& offset = {});
+
+        inline ProfilePage* showProfile(int accountID, bool ownProfile = false) {
+            auto popup = ProfilePage::create(accountID, ownProfile);
+            popup->show();
+
+            return popup;
+        }
 
         namespace font {
             inline constexpr auto big = "bigFont.fnt";
