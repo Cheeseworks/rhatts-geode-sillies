@@ -1,12 +1,10 @@
 #pragma once
 
-#include <cstdint>
-
 #include <Geode/binding/GJGameLevel.hpp>
 
 namespace cw {
     namespace lvl {
-        enum class Rating : uint8_t {
+        enum class Rating : int {
             None = 0,
             Star = 1,
             Featured = 2,
@@ -54,6 +52,21 @@ namespace cw {
 
             if (level->m_autoLevel) return -1;
             return level->getAverageDifficulty();
+        }
+
+        inline constexpr auto getRating(GJGameLevel* level) {
+            switch (level->m_isEpic) {
+                default: break;
+
+                case 1: return Rating::Epic;
+                case 2: return Rating::Legendary;
+                case 3: return Rating::Mythic;
+            };
+
+            if (level->m_featured != 0) return Rating::Featured;
+            if (level->m_stars.value() != 0) return Rating::Star;
+
+            return Rating::None;
         }
     };
 };
