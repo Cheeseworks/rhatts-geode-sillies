@@ -40,6 +40,31 @@ Button* ui::addHelpButton(CCNode* to, std::string content, bool useMarkdown, flo
     return infoBtn;
 }
 
+ProfilePage* ui::showProfile(int accountID, bool ownProfile) {
+    auto popup = ProfilePage::create(accountID, ownProfile);
+    popup->show();
+
+    return popup;
+}
+
+Button* ui::createProfileBtn(GJUserScore* user, ZStringView font) {
+    return createProfileBtn(user->m_userName, user->m_accountID, font);
+}
+
+Button* ui::createProfileBtn(std::string username, int accountID, ZStringView font) {
+    auto btn = Button::createWithLabel(
+        std::move(username),
+        font,
+        [accountID](auto) {
+            showProfile(accountID);
+        }
+    );
+    btn->setID("view-profile-btn");
+    btn->setScaleMultiplier(1.125f);
+
+    return btn;
+}
+
 FLAlertLayer* ui::popups::showDiscord() {
     return createQuickPopup(
         "Discord Community",

@@ -17,12 +17,10 @@ namespace cw {
 
         geode::Button* addHelpButton(cocos2d::CCNode* to, std::string content, bool useMarkdown = false, float btnScale = 0.75f, cocos2d::CCPoint const& offset = {});
 
-        inline ProfilePage* showProfile(int accountID, bool ownProfile = false) {
-            auto popup = ProfilePage::create(accountID, ownProfile);
-            popup->show();
+        ProfilePage* showProfile(int accountID, bool ownProfile = false);
 
-            return popup;
-        }
+        geode::Button* createProfileBtn(GJUserScore* user, geode::ZStringView font);
+        geode::Button* createProfileBtn(std::string username, int accountID, geode::ZStringView font);
 
         namespace font {
             inline constexpr auto big = "bigFont.fnt";
