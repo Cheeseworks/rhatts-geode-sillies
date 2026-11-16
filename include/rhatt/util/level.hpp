@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include <Geode/Enums.hpp>
+#include <Geode/binding/GJGameLevel.hpp>
 
 namespace cw {
     namespace lvl {
@@ -38,6 +38,22 @@ namespace cw {
                 case Rating::Legendary: return GJFeatureState::Legendary;
                 case Rating::Mythic: return GJFeatureState::Mythic;
             };
+        }
+
+        inline constexpr auto getDiffSpriteNum(GJGameLevel* level) {
+            if (level->m_demon.value() == 1) {
+                switch (level->m_demonDifficulty) {
+                    default: return 6;
+
+                    case 3: return 7;
+                    case 4: return 8;
+                    case 5: return 9;
+                    case 6: return 10;
+                };
+            };
+
+            if (level->m_autoLevel) return -1;
+            return level->getAverageDifficulty();
         }
     };
 };
