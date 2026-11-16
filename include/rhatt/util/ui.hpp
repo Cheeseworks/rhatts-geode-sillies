@@ -19,9 +19,6 @@ namespace cw {
 
         ProfilePage* showProfile(int accountID, bool ownProfile = false);
 
-        geode::Button* createProfileBtn(GJUserScore* user, geode::ZStringView font);
-        geode::Button* createProfileBtn(std::string username, int accountID, geode::ZStringView font);
-
         namespace font {
             inline constexpr auto big = "bigFont.fnt";
             inline constexpr auto gold = "goldFont.fnt";
@@ -50,5 +47,8 @@ namespace cw {
             FLAlertLayer* showDiscord();
             void showSupport();
         };
+
+        geode::Button* createProfileBtn(GJUserScore* user, geode::ZStringView font = cw::ui::font::big);
+        geode::Button* createProfileBtn(std::string username, int accountID, geode::ZStringView font = cw::ui::font::big);
     };
 };
