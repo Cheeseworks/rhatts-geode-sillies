@@ -14,6 +14,8 @@ namespace cw {
             geode::Button::ButtonCallback callback;
         };
 
+        geode::Button* addHelpButton(cocos2d::CCNode* to, std::string content, bool useMarkdown = false, float btnScale = 0.75f, cocos2d::CCPoint const& offset = {});
+
         namespace font {
             inline constexpr auto big = "bigFont.fnt";
             inline constexpr auto gold = "goldFont.fnt";
@@ -36,10 +38,6 @@ namespace cw {
 
             inline constexpr auto close = "close.png"_gode;
             inline constexpr auto info = "GJ_infoIcon_001.png";
-        };
-
-        namespace nodes {
-            geode::Button* addHelpButton(cocos2d::CCNode* to, std::string content, bool useMarkdown = false, float btnScale = 0.75f, cocos2d::CCPoint const& offset = {});
         };
 
         namespace popups {
