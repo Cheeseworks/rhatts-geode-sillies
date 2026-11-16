@@ -9,7 +9,7 @@
 using namespace geode::prelude;
 using namespace cw;
 
-Button* ui::nodes::addHelpButton(CCNode* to, std::string content, bool useMarkdown, float btnScale, CCPoint const& offset) {
+Button* ui::addHelpButton(CCNode* to, std::string content, bool useMarkdown, float btnScale, CCPoint const& offset) {
     auto infoBtn = Button::createWithSpriteFrameName(
         ui::sprites::info,
         [cont = std::move(content), useMarkdown](auto) {
@@ -36,7 +36,7 @@ Button* ui::nodes::addHelpButton(CCNode* to, std::string content, bool useMarkdo
     infoBtn->setScale(btnScale);
     infoBtn->setZOrder(CW_HIGHEST_Z);
 
-    to->addChildAtPosition(infoBtn, Anchor::TopRight, ccp(-13.75f, -13.75f) + offset, false);
+    to->addChildAtPosition(infoBtn, Anchor::TopRight, CCPoint{ -13.75f, -13.75f } + offset, false);
     return infoBtn;
 }
 
