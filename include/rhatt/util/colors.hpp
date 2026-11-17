@@ -29,7 +29,7 @@ namespace cw {
         };
 
         inline constexpr cocos2d::ccColor3B fadeColor(float value) noexcept {
-            value = std::clamp(value, 0.f, 100.f);
+            value = std::clamp(value, 0.0f, 100.0f);
 
             if (value <= 50.0f) {
                 auto t = value / 50.0f;

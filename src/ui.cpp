@@ -36,7 +36,7 @@ Button* ui::addHelpButton(CCNode* to, std::string content, bool useMarkdown, flo
     infoBtn->setScale(btnScale);
     infoBtn->setZOrder(CW_HIGHEST_Z);
 
-    to->addChildAtPosition(infoBtn, Anchor::TopRight, CCPoint{ -13.75f, -13.75f } + offset, false);
+    to->addChildAtPosition(infoBtn, Anchor::TopRight, CCPoint{ -15.0f, -15.0f } + offset, false);
     return infoBtn;
 }
 
