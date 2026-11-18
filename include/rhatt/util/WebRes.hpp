@@ -2,16 +2,13 @@
 
 #include "../Macros.h"
 
-#ifdef CW_ENABLE_WEB
-    #include "../util.hpp"
-#endif
+#include "../util.hpp"
 
 #include <Geode/utils/web.hpp>
 
 namespace cw {
     namespace web = geode::utils::web;
 
-#ifdef CW_ENABLE_WEB
     namespace url {
         static constexpr auto apiBase = CW_WEB_BASEURL;
 
@@ -57,13 +54,10 @@ namespace cw {
 
         geode::utils::web::WebRequest setBytes(geode::utils::web::WebRequest other, geode::ByteVector data);
     };
-#endif
 };
 
-#ifdef CW_ENABLE_WEB
 template <>
 struct cw::json::Serialize<cw::WebRes> final {
     static geode::Result<cw::WebRes> fromJson(cw::json::Value const& value);
     static cw::json::Value toJson(cw::WebRes const& value);
 };
-#endif

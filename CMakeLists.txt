@@ -6,8 +6,6 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
 project(rhatt VERSION 1.0.0)
 
-option(CW_ENABLE_WEB "Enable web features" OFF)
-
 file(GLOB_RECURSE SOURCES src/*.cpp)
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
 
@@ -22,9 +20,5 @@ if(PROJECT_IS_TOP_LEVEL)
 endif()
 
 target_link_libraries(${PROJECT_NAME} geode-sdk)
-
-if(CW_ENABLE_WEB)
-    target_compile_definitions(${PROJECT_NAME} PUBLIC CW_ENABLE_WEB=1)
-endif()
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

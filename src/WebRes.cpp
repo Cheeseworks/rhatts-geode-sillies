@@ -1,9 +1,8 @@
-#ifdef CW_ENABLE_WEB
-    #include <rhatt/util/WebRes.hpp>
+#include <rhatt/util/WebRes.hpp>
 
-    #include <rhatt/prelude.h>
+#include <rhatt/prelude.h>
 
-    #include <Geode/Geode.hpp>
+#include <Geode/Geode.hpp>
 
 using namespace geode::prelude;
 using namespace cw;
@@ -96,4 +95,3 @@ bool WebRes::isOk() const noexcept {
 bool WebRes::isErr() const noexcept {
     return m_payload.isNull() || m_code >= 400 || !m_error.empty();
 }
-#endif
