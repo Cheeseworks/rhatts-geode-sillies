@@ -31,5 +31,6 @@ namespace cw::ui {
         LoadFuture loadData(std::string url);
 
         geode::utils::web::WebRequest const& getRequestInfo() const noexcept;
+        geode::ByteVector getImageData() const noexcept;
     };
 };

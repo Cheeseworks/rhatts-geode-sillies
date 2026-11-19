@@ -9,6 +9,7 @@ using namespace cw;
 
 struct WebSprite::Impl final {
     LazySprite* spr = nullptr;
+
     CCSize size;
     bool loadingCircle = true;
 
@@ -64,13 +65,13 @@ void WebSprite::load(std::string url, LoadCallback callback) {
     m_impl->callback = std::move(callback);
 
     m_impl->task.spawn(
-        fmt::format("Image web request for agent {}", "penis"),
+        fmt::format("Image web request for agent {}", m_impl->request.getUserAgent().value_or(Mod::get()->getName())),
         loadData(std::move(url)),
         [this](LoadResult res) {
             if (res.isErr()) return m_impl->callback(std::move(res).asErr());
             m_impl->imgData = std::move(res).unwrap();
 
-            m_impl->spr->loadFromData(ByteSpan{ m_impl->imgData });
+            m_impl->spr->loadFromData(m_impl->imgData);
         }
     );
 }
@@ -84,6 +85,10 @@ WebSprite::LoadFuture WebSprite::loadData(std::string url) {
 
 web::WebRequest const& WebSprite::getRequestInfo() const noexcept {
     return m_impl->request;
+}
+
+geode::ByteVector WebSprite::getImageData() const noexcept {
+    return m_impl->imgData;
 }
 
 WebSprite* WebSprite::create(CCSize size, bool loadingCircle) {
