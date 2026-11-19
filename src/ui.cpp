@@ -1,4 +1,4 @@
-#include <rhatt/util/ui.hpp>
+#include <rhatt/ui/utils.hpp>
 
 #include <rhatt/prelude.h>
 
