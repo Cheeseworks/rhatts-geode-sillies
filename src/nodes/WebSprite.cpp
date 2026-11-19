@@ -24,22 +24,6 @@ struct WebSprite::Impl final {
 WebSprite::WebSprite() : m_impl(std::make_unique<Impl>()) {}
 WebSprite::~WebSprite() = default;
 
-void WebSprite::createSprite() {
-    if (m_impl->spr) m_impl->spr->removeFromParent();
-
-    m_impl->spr = LazySprite::create(m_impl->size, m_impl->loadingCircle);
-    m_impl->spr->setID("sprite");
-
-    m_impl->spr->setLoadCallback([this](Result<> res) {
-        if (m_impl->callback) {
-            if (res.isErr()) return m_impl->callback(std::move(res).asErr());
-            m_impl->callback(Ok(m_impl->imgData));
-        };
-    });
-
-    addChildAtPosition(m_impl->spr, Anchor::Center);
-}
-
 bool WebSprite::init(CCSize size, bool loadingCircle) {
     m_impl->size = size;
     m_impl->loadingCircle = loadingCircle;
@@ -52,7 +36,7 @@ bool WebSprite::init(CCSize size, bool loadingCircle) {
     setCascadeColorEnabled(true);
     setCascadeOpacityEnabled(true);
 
-    createSprite();
+    resetImage();
 
     return true;
 }
@@ -65,7 +49,10 @@ void WebSprite::load(std::string url, LoadCallback callback) {
     m_impl->callback = std::move(callback);
 
     m_impl->task.spawn(
-        fmt::format("Image web request for agent {}", m_impl->request.getUserAgent().value_or(Mod::get()->getName())),
+        fmt::format(
+            "Image web request for agent {}",
+            m_impl->request.getUserAgent().value_or(Mod::get()->getName())
+        ),
         loadData(std::move(url)),
         [this](LoadResult res) {
             if (res.isErr()) return m_impl->callback(std::move(res).asErr());
@@ -81,6 +68,23 @@ WebSprite::LoadFuture WebSprite::loadData(std::string url) {
     if (req.error()) co_return Err(req.errorMessage());
 
     co_return Ok(std::move(req).data());
+}
+
+void WebSprite::resetImage() {
+    if (m_impl->spr) m_impl->spr->removeFromParent();
+
+    m_impl->spr = LazySprite::create(m_impl->size, m_impl->loadingCircle);
+    m_impl->spr->setID("sprite");
+
+    m_impl->spr->setLoadCallback([this](Result<> res) {
+        m_impl->spr->setScale((m_impl->spr->getScaledContentHeight() / getContentHeight()) * m_impl->spr->getScale());
+        if (m_impl->callback) {
+            if (res.isErr()) return m_impl->callback(std::move(res).asErr());
+            m_impl->callback(Ok(m_impl->imgData));
+        };
+    });
+
+    addChildAtPosition(m_impl->spr, Anchor::Center);
 }
 
 web::WebRequest const& WebSprite::getRequestInfo() const noexcept {

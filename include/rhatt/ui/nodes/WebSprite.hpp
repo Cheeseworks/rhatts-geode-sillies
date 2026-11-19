@@ -7,9 +7,6 @@ namespace cw::ui {
         struct Impl;
         std::unique_ptr<Impl> m_impl;
 
-    private:
-        void createSprite();
-
     protected:
         WebSprite();
         ~WebSprite();
@@ -29,6 +26,8 @@ namespace cw::ui {
         void load(std::string url, LoadCallback callback);
 
         LoadFuture loadData(std::string url);
+
+        void resetImage();
 
         geode::utils::web::WebRequest const& getRequestInfo() const noexcept;
         geode::ByteVector getImageData() const noexcept;
