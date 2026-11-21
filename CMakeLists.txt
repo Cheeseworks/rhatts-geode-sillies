@@ -21,7 +21,9 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} geode-sdk)
 
-set(CW_WEB_BASEURL "http://localhost:6769" CACHE STRING "Base URL for web requests")
+if(NOT DEFINED CW_WEB_BASEURL)
+    set(CW_WEB_BASEURL "http://localhost:6769")
+endif()
 target_compile_definitions(${PROJECT_NAME} PUBLIC "CW_WEB_BASEURL=\"${CW_WEB_BASEURL}\"")
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
