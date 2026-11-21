@@ -27,6 +27,8 @@ namespace cw::ui {
 
         LoadFuture loadData(std::string url);
 
+        void cancelLoad();
+
         void resetImage();
 
         geode::utils::web::WebRequest const& getRequestInfo() const noexcept;

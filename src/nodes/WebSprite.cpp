@@ -70,6 +70,11 @@ WebSprite::LoadFuture WebSprite::loadData(std::string url) {
     co_return Ok(std::move(req).data());
 }
 
+void WebSprite::cancelLoad() {
+    m_impl->spr->cancelLoad();
+    m_impl->task.cancel();
+}
+
 void WebSprite::resetImage() {
     if (m_impl->spr) m_impl->spr->removeFromParent();
 
