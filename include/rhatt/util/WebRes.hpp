@@ -10,7 +10,7 @@ namespace cw {
     namespace web = geode::utils::web;
 
     namespace url {
-        inline constexpr auto apiBase = CW_WEB_BASEURL;
+        static constexpr auto apiBase = CW_WEB_BASEURL;
 
         inline std::string apiEndpoint(std::string_view path) {
             return fmt::format("{}/api{}", apiBase, path);
