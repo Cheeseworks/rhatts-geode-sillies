@@ -80,9 +80,11 @@ void WebSprite::resetImage() {
 
     m_impl->spr = LazySprite::create(m_impl->size, m_impl->loadingCircle);
     m_impl->spr->setID("sprite");
+    m_impl->spr->setAutoResize(true);
 
     m_impl->spr->setLoadCallback([this](Result<> res) {
-        m_impl->spr->setScale((m_impl->spr->getScaledContentHeight() / getContentHeight()) * m_impl->spr->getScale());
+        limitNodeSize(m_impl->spr, getContentSize(), 1.0f, 0.125f);
+
         if (m_impl->callback) {
             if (res.isErr()) return m_impl->callback(std::move(res).asErr());
             m_impl->callback(Ok(m_impl->imgData));
