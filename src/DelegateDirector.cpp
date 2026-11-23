@@ -92,6 +92,9 @@ void DelegateDirector::getUserInfoFinished(GJUserScore* score) {
     };
 }
 
+void DelegateDirector::userInfoChanged(GJUserScore* score) {
+}
+
 void DelegateDirector::getUserInfoFailed(int id) {
     GameLevelManager::sharedState()->m_userInfoDelegate = nullptr;
 
@@ -136,7 +139,6 @@ void DelegateDirector::getUserListFailed(UserListType type, GJErrorCode errorTyp
 }
 
 void DelegateDirector::userListChanged(CCArray* scores, UserListType type) {
-    GameLevelManager::sharedState()->m_userListDelegate = nullptr;
 }
 
 void DelegateDirector::searchLevel(int levelID, LevelCallback callback) {
