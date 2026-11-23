@@ -9,9 +9,13 @@
 using namespace geode::prelude;
 using namespace cw;
 
+FLAlertLayer* ui::showAlert(ZStringView title, std::string content, ZStringView btn1, std::optional<ZStringView> btn2, AlertCallback callback, float width, bool cancelledByEscape) {
+    return createQuickPopup(title, std::move(content), btn1, btn2.value_or(ZStringView{ nullptr }), width, std::move(callback), true, cancelledByEscape);
+}
+
 Button* ui::addHelpButton(CCNode* to, std::string content, bool useMarkdown, float btnScale, CCPoint const& offset) {
     auto infoBtn = Button::createWithSpriteFrameName(
-        ui::sprites::info,
+        sprites::info,
         [cont = std::move(content), useMarkdown](auto) {
             if (useMarkdown) return MDPopup::create(
                                         true,
@@ -23,12 +27,10 @@ Button* ui::addHelpButton(CCNode* to, std::string content, bool useMarkdown, flo
             )
                 ->show();
 
-            createQuickPopup(
+            showAlert(
                 "Help",
                 cont,
-                "OK",
-                nullptr,
-                nullptr
+                "OK"
             );
         }
     );
@@ -66,7 +68,7 @@ Button* ui::createProfileBtn(std::string username, int accountID, ZStringView fo
 }
 
 FLAlertLayer* ui::popups::showDiscord() {
-    return createQuickPopup(
+    return showAlert(
         "Discord Community",
         "Join <cd>Cheeseworks</c>'s <cb>Discord server</c>?\n"
         "<cs>Get help, report bugs, and chat with other players!</c>",

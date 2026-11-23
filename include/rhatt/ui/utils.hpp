@@ -10,8 +10,10 @@
 #include <Geode/binding/FLAlertLayer.hpp>
 
 namespace cw::ui {
-    geode::Button* addHelpButton(cocos2d::CCNode* to, std::string content, bool useMarkdown = false, float btnScale = 0.75f, cocos2d::CCPoint const& offset = {});
+    using AlertCallback = geode::Function<void(FLAlertLayer*, bool)>;
+    FLAlertLayer* showAlert(geode::ZStringView title, std::string content, geode::ZStringView btn1, std::optional<geode::ZStringView> btn2 = std::nullopt, AlertCallback callback = nullptr, float width = 350.0f, bool cancelledByEscape = false);
 
+    geode::Button* addHelpButton(cocos2d::CCNode* to, std::string content, bool useMarkdown = false, float btnScale = 0.75f, cocos2d::CCPoint const& offset = {});
     ProfilePage* showProfile(int accountID, bool ownProfile = false);
 
     namespace popups {
