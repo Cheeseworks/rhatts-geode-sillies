@@ -167,7 +167,7 @@ void DelegateDirector::getUserList(UserListType type, UserListCallback callback)
     log::trace("Set user list callback with type {}", (int)type);
 
     glm->m_userListDelegate = this;
-    glm->getStoredUserList(type);
+    glm->getUserList(type);
 }
 
 void DelegateDirector::searchUserByID(int accountID, UserCallback callback) {
