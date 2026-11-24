@@ -21,5 +21,8 @@ namespace cw::rng {
     bool chance(uint8_t percent);
     float pc(size_t precision = 2);
 
-    constexpr float chanceToDelayPct(uint8_t chance) noexcept;
+    inline constexpr float chanceToDelayPct(uint8_t chance) noexcept {
+        chance = std::clamp(chance, (uint8_t)0, (uint8_t)100);
+        return 1.0f - ((float)chance / 100.0f);
+    }
 };
