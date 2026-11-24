@@ -162,6 +162,8 @@ void DelegateDirector::searchUserLevels(int userID, int page, LevelListCallback 
 void DelegateDirector::getUserList(UserListType type, UserListCallback callback) {
     auto glm = GameLevelManager::sharedState();
 
+    if (auto saved = glm->getStoredUserList(type)->asExt<GJUserScore*>(); !saved.empty()) return callback(Ok(saved));
+
     m_userListCallbacks[type] = std::move(callback);
 
     log::trace("Set user list callback with type {}", (int)type);
