@@ -41,6 +41,11 @@ bool WebSprite::init(CCSize size, bool loadingCircle) {
     return true;
 }
 
+void WebSprite::onExit() {
+    cancelLoad();
+    CCNodeRGBA::onExit();
+}
+
 void WebSprite::setRequestInfo(web::WebRequest request) {
     m_impl->request = request;
 }

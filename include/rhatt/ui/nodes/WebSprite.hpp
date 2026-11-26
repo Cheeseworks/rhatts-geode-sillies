@@ -11,6 +11,8 @@ namespace cw::ui {
         WebSprite();
         ~WebSprite();
 
+        void onExit() override;
+
         bool init(cocos2d::CCSize size, bool loadingCircle);
 
     public:
