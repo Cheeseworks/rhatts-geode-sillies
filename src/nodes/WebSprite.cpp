@@ -42,7 +42,7 @@ bool WebSprite::init(CCSize size, bool loadingCircle) {
 }
 
 void WebSprite::setRequestInfo(web::WebRequest request) {
-    m_impl->request = std::move(request);
+    m_impl->request = request;
 }
 
 void WebSprite::load(std::string url, LoadCallback callback) {
@@ -83,7 +83,7 @@ void WebSprite::resetImage() {
     m_impl->spr->setAutoResize(true);
 
     m_impl->spr->setLoadCallback([this](Result<> res) {
-        limitNodeSize(m_impl->spr, getContentSize(), 1.0f, 0.125f);
+        m_impl->spr->setScale(m_impl->spr->getScaledContentHeight() / getContentHeight());
 
         if (m_impl->callback) {
             if (res.isErr()) return m_impl->callback(std::move(res).asErr());
