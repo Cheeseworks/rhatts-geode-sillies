@@ -89,11 +89,6 @@ void WebSprite::resetImage() {
             if (res.isErr()) return m_impl->callback(std::move(res).asErr());
             m_impl->callback(Ok(m_impl->imgData));
         };
-
-        auto x = getContentWidth() / m_impl->spr->getScaledContentWidth();
-        auto y = getContentHeight() / m_impl->spr->getScaledContentHeight();
-
-        m_impl->spr->setScale(std::min(x, y));
     });
 
     addChildAtPosition(m_impl->spr, Anchor::Center);
