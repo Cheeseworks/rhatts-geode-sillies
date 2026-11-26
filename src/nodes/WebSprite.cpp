@@ -56,7 +56,9 @@ void WebSprite::load(std::string url, LoadCallback callback) {
         loadData(std::move(url)),
         [this](LoadResult res) {
             if (res.isErr()) return m_impl->callback(std::move(res).asErr());
-            m_impl->imgData = std::move(res).unwrap();
+
+            auto dataSpan = std::move(res).unwrap();
+            m_impl->imgData = ByteVector{ dataSpan.begin(), dataSpan.end() };
 
             m_impl->spr->loadFromData(m_impl->imgData);
         }
@@ -83,12 +85,15 @@ void WebSprite::resetImage() {
     m_impl->spr->setAutoResize(true);
 
     m_impl->spr->setLoadCallback([this](Result<> res) {
-        m_impl->spr->setScale(m_impl->spr->getScaledContentHeight() / getContentHeight());
-
         if (m_impl->callback) {
             if (res.isErr()) return m_impl->callback(std::move(res).asErr());
             m_impl->callback(Ok(m_impl->imgData));
         };
+
+        auto x = getContentWidth() / m_impl->spr->getScaledContentWidth();
+        auto y = getContentHeight() / m_impl->spr->getScaledContentHeight();
+
+        m_impl->spr->setScale(std::min(x, y));
     });
 
     addChildAtPosition(m_impl->spr, Anchor::Center);

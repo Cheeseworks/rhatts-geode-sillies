@@ -14,7 +14,7 @@ namespace cw::ui {
         bool init(cocos2d::CCSize size, bool loadingCircle);
 
     public:
-        using LoadResult = geode::Result<geode::ByteVector>;
+        using LoadResult = geode::Result<geode::ByteSpan>;
 
         using LoadCallback = geode::Function<void(LoadResult)>;
         using LoadFuture = arc::Future<LoadResult>;
