@@ -63,10 +63,31 @@ void DelegateDirector::loadLevelsFailed(const char* key, int) {
     };
 }
 
+void DelegateDirector::levelDownloadFinished(GJGameLevel* level) {
+    GameLevelManager::sharedState()->m_levelDownloadDelegate = nullptr;
+
+    log::trace("Received finished level download request for level ID {}", level->m_levelID);
+
+    if (auto const it = m_levelDownloadCallbacks.find(level->m_levelID); it != m_levelDownloadCallbacks.end()) {
+        if (it->second.empty()) return log::error("No callbacks found for level ID {}", level->m_levelID);
+
+        for (auto& cb : it->second) cb(Ok(level));
+        m_levelDownloadCallbacks.erase(it);
+
+        log::debug("Cleared callback list for level ID {}", level->m_levelID);
+    };
+}
+
+void DelegateDirector::levelDownloadFailed(int response) {  // ???
+    GameLevelManager::sharedState()->m_levelDownloadDelegate = nullptr;
+
+    log::warn("Received failed level download request with response code {}", response);
+}
+
 void DelegateDirector::getUserInfoFinished(GJUserScore* score) {
     GameLevelManager::sharedState()->m_userInfoDelegate = nullptr;
 
-    log::debug("Received finished request for account ID {}", score->m_accountID);
+    log::trace("Received finished request for account ID {}", score->m_accountID);
 
     if (auto const it = m_userIDCallbacks.find(score->m_accountID); it != m_userIDCallbacks.end()) {
         if (it->second.empty()) return log::error("No callbacks found for account ID {}", score->m_accountID);
@@ -76,9 +97,6 @@ void DelegateDirector::getUserInfoFinished(GJUserScore* score) {
 
         log::debug("Cleared callback list for account ID {}", score->m_accountID);
     };
-}
-
-void DelegateDirector::userInfoChanged(GJUserScore* score) {
 }
 
 void DelegateDirector::getUserInfoFailed(int id) {
@@ -94,6 +112,9 @@ void DelegateDirector::getUserInfoFailed(int id) {
 
         log::debug("Cleared callback list for account ID {}", id);
     };
+}
+
+void DelegateDirector::userInfoChanged(GJUserScore* score) {
 }
 
 void DelegateDirector::getUserListFinished(CCArray* scores, UserListType type) {
@@ -162,7 +183,7 @@ void DelegateDirector::searchUserLevels(int userID, int page, LevelListCallback 
 void DelegateDirector::getUserList(UserListType type, UserListCallback callback) {
     auto glm = GameLevelManager::sharedState();
 
-    if (auto saved = glm->getStoredUserList(type)->asExt<GJUserScore*>(); !saved.empty()) return callback(Ok(saved));
+    if (auto saved = glm->getStoredUserList(type)->asExt<GJUserScore>(); !saved.empty()) return callback(Ok(saved));
 
     m_userListCallbacks[type] = std::move(callback);
 
@@ -170,6 +191,19 @@ void DelegateDirector::getUserList(UserListType type, UserListCallback callback)
 
     glm->m_userListDelegate = this;
     glm->getUserList(type);
+}
+
+void DelegateDirector::downloadLevel(int levelID, LevelCallback callback) {
+    auto glm = GameLevelManager::sharedState();
+
+    if (auto saved = glm->getSavedLevel(levelID)) return callback(Ok(saved));
+
+    m_levelDownloadCallbacks[levelID].push_back(std::move(callback));
+
+    log::trace("Pushed level download callback for level ID '{}'", levelID);
+
+    glm->m_levelDownloadDelegate = this;
+    glm->downloadLevel(levelID, false, 0);
 }
 
 void DelegateDirector::searchUserByID(int accountID, UserCallback callback) {

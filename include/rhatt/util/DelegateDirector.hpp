@@ -9,11 +9,12 @@
 #include <Geode/utils/StringMap.hpp>
 
 #include <Geode/binding/LevelManagerDelegate.hpp>
+#include <Geode/binding/LevelDownloadDelegate.hpp>
 #include <Geode/binding/UserInfoDelegate.hpp>
 #include <Geode/binding/UserListDelegate.hpp>
 
 namespace cw {
-    class DelegateDirector final : public base::Singleton<DelegateDirector>, public LevelManagerDelegate, public UserInfoDelegate, public UserListDelegate {
+    class DelegateDirector final : public base::Singleton<DelegateDirector>, public LevelManagerDelegate, public LevelDownloadDelegate, public UserInfoDelegate, public UserListDelegate {
         using LevelCallback = geode::Function<void(geode::Result<geode::Ref<GJGameLevel>>)>;
         using UserCallback = geode::Function<void(geode::Result<geode::Ref<GJUserScore>>)>;
 
@@ -27,11 +28,15 @@ namespace cw {
         geode::utils::StringMap<LevelListCallback> m_levelListCallbacks;
         std::unordered_map<UserListType, UserListCallback> m_userListCallbacks;
 
+        std::unordered_map<int, std::vector<LevelCallback>> m_levelDownloadCallbacks;
         std::unordered_map<int, std::vector<UserCallback>> m_userIDCallbacks;
 
     protected:
         void loadLevelsFinished(cocos2d::CCArray* levels, const char* key, int) override;
         void loadLevelsFailed(const char* key, int) override;
+
+        void levelDownloadFinished(GJGameLevel* level) override;
+        void levelDownloadFailed(int response) override;
 
         void getUserListFinished(cocos2d::CCArray* scores, UserListType type) override;
         void getUserListFailed(UserListType type, GJErrorCode errorType) override;
@@ -48,6 +53,7 @@ namespace cw {
         void searchUserLevels(int userID, int page, LevelListCallback callback);
         void getUserList(UserListType type, UserListCallback callback);
 
+        void downloadLevel(int levelID, LevelCallback callback);
         void searchUserByID(int accountID, UserCallback callback);
     };
 };
